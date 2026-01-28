@@ -74,29 +74,23 @@
   * {
     @apply border-border;
   }
-  html {
-    /* Use transform instead of zoom for cross-browser compatibility */
-    height: 111.11%; /* 100% / 0.9 to fill viewport after scale */
-    min-height: 111.11vh;
-    width: 111.11%;
-    transform: scale(0.9);
-    transform-origin: top left;
-    overflow: hidden;
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
   body {
     @apply bg-background text-foreground;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px; /* Slightly smaller base font instead of zoom */
     line-height: 1.5;
     font-weight: 400;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    margin: 0;
     min-width: 320px;
-    height: 100%;
-  }
-  #root {
-    height: 100%;
   }
 }
