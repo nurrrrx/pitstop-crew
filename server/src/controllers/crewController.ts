@@ -18,7 +18,7 @@ export const getAllCrew = async (req: Request, res: Response, next: NextFunction
 // Get crew member by ID
 export const getCrewMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const member = await Crew.getById(parseInt(id));
 
     if (!member) {
@@ -53,7 +53,7 @@ export const createCrewMember = async (req: Request, res: Response, next: NextFu
 // Update a crew member
 export const updateCrewMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const member = await Crew.update(parseInt(id), req.body);
 
     if (!member) {
@@ -69,7 +69,7 @@ export const updateCrewMember = async (req: Request, res: Response, next: NextFu
 // Archive a crew member (set end date)
 export const archiveCrewMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { end_date } = req.body;
 
     const success = await Crew.archive(parseInt(id), end_date);
@@ -87,7 +87,7 @@ export const archiveCrewMember = async (req: Request, res: Response, next: NextF
 // Delete a crew member permanently
 export const deleteCrewMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const success = await Crew.delete(parseInt(id));
 
     if (!success) {
@@ -103,7 +103,7 @@ export const deleteCrewMember = async (req: Request, res: Response, next: NextFu
 // Reactivate an archived crew member
 export const reactivateCrewMember = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const success = await Crew.reactivate(parseInt(id));
 
     if (!success) {
@@ -119,7 +119,7 @@ export const reactivateCrewMember = async (req: Request, res: Response, next: Ne
 // Get projects for a crew member
 export const getCrewProjects = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const projects = await Crew.getProjects(parseInt(id));
     res.json(projects);
   } catch (error) {
@@ -130,7 +130,7 @@ export const getCrewProjects = async (req: Request, res: Response, next: NextFun
 // Get frequent collaborators
 export const getCrewCollaborators = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const collaborators = await Crew.getCollaborators(parseInt(id));
     res.json(collaborators);
   } catch (error) {
@@ -141,7 +141,7 @@ export const getCrewCollaborators = async (req: Request, res: Response, next: Ne
 // Get monthly stats
 export const getCrewMonthlyStats = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { year } = req.query;
     const stats = await Crew.getMonthlyStats(parseInt(id), year ? parseInt(year as string) : undefined);
     res.json(stats);
@@ -153,7 +153,7 @@ export const getCrewMonthlyStats = async (req: Request, res: Response, next: Nex
 // Get average monthly cost (for FTEs)
 export const getCrewAverageCost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const average = await Crew.getAverageMonthlyCost(parseInt(id));
     res.json(average);
   } catch (error) {
@@ -164,7 +164,7 @@ export const getCrewAverageCost = async (req: Request, res: Response, next: Next
 // Get cost plans (for contractors)
 export const getCrewCostPlans = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { year } = req.query;
     const plans = await Crew.getCostPlans(parseInt(id), year ? parseInt(year as string) : undefined);
     res.json(plans);
@@ -176,7 +176,7 @@ export const getCrewCostPlans = async (req: Request, res: Response, next: NextFu
 // Create or update cost plan
 export const upsertCostPlan = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { year, month, ...data } = req.body;
 
     if (!year || !month) {
@@ -193,7 +193,7 @@ export const upsertCostPlan = async (req: Request, res: Response, next: NextFunc
 // Get deliverables for a crew member
 export const getCrewDeliverables = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const deliverables = await Crew.getDeliverables(parseInt(id));
     res.json(deliverables);
   } catch (error) {
@@ -204,7 +204,7 @@ export const getCrewDeliverables = async (req: Request, res: Response, next: Nex
 // Get chargeability
 export const getCrewChargeability = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { startDate, endDate } = req.query;
     const chargeability = await Crew.getChargeability(
       parseInt(id),

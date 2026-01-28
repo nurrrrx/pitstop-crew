@@ -104,7 +104,7 @@ export const ProjectController = {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const project = await ProjectModel.findById(parseInt(req.params.id));
+      const project = await ProjectModel.findById(parseInt(String(req.params.id)));
       if (!project) {
         res.status(404).json({ error: 'Project not found' });
         return;
@@ -151,7 +151,7 @@ export const ProjectController = {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const data = createProjectSchema.partial().parse(req.body);
-      const project = await ProjectModel.update(parseInt(req.params.id), data);
+      const project = await ProjectModel.update(parseInt(String(req.params.id)), data);
       if (!project) {
         res.status(404).json({ error: 'Project not found' });
         return;
@@ -168,7 +168,7 @@ export const ProjectController = {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const success = await ProjectModel.delete(parseInt(req.params.id));
+      const success = await ProjectModel.delete(parseInt(String(req.params.id)));
       if (!success) {
         res.status(404).json({ error: 'Project not found' });
         return;
@@ -182,7 +182,7 @@ export const ProjectController = {
   // Members
   async getMembers(req: Request, res: Response, next: NextFunction) {
     try {
-      const members = await ProjectModel.getMembers(parseInt(req.params.id));
+      const members = await ProjectModel.getMembers(parseInt(String(req.params.id)));
       res.json(members);
     } catch (error) {
       next(error);
@@ -192,7 +192,7 @@ export const ProjectController = {
   async addMember(req: Request, res: Response, next: NextFunction) {
     try {
       const { user_id, role } = req.body;
-      await ProjectModel.addMember(parseInt(req.params.id), user_id, role);
+      await ProjectModel.addMember(parseInt(String(req.params.id)), user_id, role);
       res.status(201).json({ message: 'Member added' });
     } catch (error) {
       next(error);
@@ -201,7 +201,7 @@ export const ProjectController = {
 
   async removeMember(req: Request, res: Response, next: NextFunction) {
     try {
-      await ProjectModel.removeMember(parseInt(req.params.id), parseInt(req.params.userId));
+      await ProjectModel.removeMember(parseInt(String(req.params.id)), parseInt(String(req.params.userId)));
       res.status(204).send();
     } catch (error) {
       next(error);
@@ -211,7 +211,7 @@ export const ProjectController = {
   // Milestones
   async getMilestones(req: Request, res: Response, next: NextFunction) {
     try {
-      const milestones = await MilestoneModel.findByProject(parseInt(req.params.id));
+      const milestones = await MilestoneModel.findByProject(parseInt(String(req.params.id)));
       res.json(milestones);
     } catch (error) {
       next(error);
@@ -223,7 +223,7 @@ export const ProjectController = {
       const data = createMilestoneSchema.parse(req.body);
       const milestone = await MilestoneModel.create({
         ...data,
-        project_id: parseInt(req.params.id),
+        project_id: parseInt(String(req.params.id)),
       });
       res.status(201).json(milestone);
     } catch (error) {
@@ -238,7 +238,7 @@ export const ProjectController = {
   async updateMilestone(req: Request, res: Response, next: NextFunction) {
     try {
       const data = createMilestoneSchema.partial().parse(req.body);
-      const milestone = await MilestoneModel.update(parseInt(req.params.milestoneId), data);
+      const milestone = await MilestoneModel.update(parseInt(String(req.params.milestoneId)), data);
       if (!milestone) {
         res.status(404).json({ error: 'Milestone not found' });
         return;
@@ -255,7 +255,7 @@ export const ProjectController = {
 
   async deleteMilestone(req: Request, res: Response, next: NextFunction) {
     try {
-      const success = await MilestoneModel.delete(parseInt(req.params.milestoneId));
+      const success = await MilestoneModel.delete(parseInt(String(req.params.milestoneId)));
       if (!success) {
         res.status(404).json({ error: 'Milestone not found' });
         return;
@@ -269,7 +269,7 @@ export const ProjectController = {
   // Time Entries
   async getTimeEntries(req: Request, res: Response, next: NextFunction) {
     try {
-      const entries = await TimeEntryModel.findByProject(parseInt(req.params.id));
+      const entries = await TimeEntryModel.findByProject(parseInt(String(req.params.id)));
       res.json(entries);
     } catch (error) {
       next(error);
@@ -286,7 +286,7 @@ export const ProjectController = {
       const data = createTimeEntrySchema.parse(req.body);
       const entry = await TimeEntryModel.create({
         ...data,
-        project_id: parseInt(req.params.id),
+        project_id: parseInt(String(req.params.id)),
         user_id: req.user.userId,
       });
       res.status(201).json(entry);
@@ -301,7 +301,7 @@ export const ProjectController = {
 
   async getProjectSummary(req: Request, res: Response, next: NextFunction) {
     try {
-      const summary = await TimeEntryModel.getProjectSummary(parseInt(req.params.id));
+      const summary = await TimeEntryModel.getProjectSummary(parseInt(String(req.params.id)));
       res.json(summary);
     } catch (error) {
       next(error);
@@ -311,7 +311,7 @@ export const ProjectController = {
   // Tasks
   async getTasks(req: Request, res: Response, next: NextFunction) {
     try {
-      const tasks = await TaskModel.findByProject(parseInt(req.params.id));
+      const tasks = await TaskModel.findByProject(parseInt(String(req.params.id)));
       res.json(tasks);
     } catch (error) {
       next(error);
@@ -323,7 +323,7 @@ export const ProjectController = {
       const data = createTaskSchema.parse(req.body);
       const task = await TaskModel.create({
         ...data,
-        project_id: parseInt(req.params.id),
+        project_id: parseInt(String(req.params.id)),
       });
       res.status(201).json(task);
     } catch (error) {
@@ -338,7 +338,7 @@ export const ProjectController = {
   async updateTask(req: Request, res: Response, next: NextFunction) {
     try {
       const data = createTaskSchema.partial().parse(req.body);
-      const task = await TaskModel.update(parseInt(req.params.taskId), data);
+      const task = await TaskModel.update(parseInt(String(req.params.taskId)), data);
       if (!task) {
         res.status(404).json({ error: 'Task not found' });
         return;
@@ -355,7 +355,7 @@ export const ProjectController = {
 
   async deleteTask(req: Request, res: Response, next: NextFunction) {
     try {
-      const success = await TaskModel.delete(parseInt(req.params.taskId));
+      const success = await TaskModel.delete(parseInt(String(req.params.taskId)));
       if (!success) {
         res.status(404).json({ error: 'Task not found' });
         return;
@@ -373,8 +373,8 @@ export const ProjectController = {
         res.status(400).json({ error: 'Invalid status' });
         return;
       }
-      const oldTask = await TaskModel.findById(parseInt(req.params.taskId));
-      const task = await TaskModel.updateStatus(parseInt(req.params.taskId), status);
+      const oldTask = await TaskModel.findById(parseInt(String(req.params.taskId)));
+      const task = await TaskModel.updateStatus(parseInt(String(req.params.taskId)), status);
       if (!task) {
         res.status(404).json({ error: 'Task not found' });
         return;
@@ -382,7 +382,7 @@ export const ProjectController = {
       // Log the status change
       if (oldTask) {
         await logAction({
-          projectId: parseInt(req.params.id),
+          projectId: parseInt(String(req.params.id)),
           entityType: 'task',
           entityId: task.id,
           action: 'status_changed',
@@ -399,7 +399,7 @@ export const ProjectController = {
   // Budget Items
   async getBudgetItems(req: Request, res: Response, next: NextFunction) {
     try {
-      const items = await BudgetItemModel.findByProject(parseInt(req.params.id));
+      const items = await BudgetItemModel.findByProject(parseInt(String(req.params.id)));
       res.json(items);
     } catch (error) {
       next(error);
@@ -409,9 +409,9 @@ export const ProjectController = {
   async createBudgetItem(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const data = createBudgetItemSchema.parse(req.body);
-      const item = await BudgetItemModel.create(parseInt(req.params.id), data);
+      const item = await BudgetItemModel.create(parseInt(String(req.params.id)), data);
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'budget_item',
         entityId: item.id,
         action: 'created',
@@ -431,13 +431,13 @@ export const ProjectController = {
   async updateBudgetItem(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const data = createBudgetItemSchema.partial().parse(req.body);
-      const item = await BudgetItemModel.update(parseInt(req.params.itemId), data);
+      const item = await BudgetItemModel.update(parseInt(String(req.params.itemId)), data);
       if (!item) {
         res.status(404).json({ error: 'Budget item not found' });
         return;
       }
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'budget_item',
         entityId: item.id,
         action: 'updated',
@@ -455,17 +455,17 @@ export const ProjectController = {
 
   async deleteBudgetItem(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const item = await BudgetItemModel.findById(parseInt(req.params.itemId));
-      const success = await BudgetItemModel.delete(parseInt(req.params.itemId));
+      const item = await BudgetItemModel.findById(parseInt(String(req.params.itemId)));
+      const success = await BudgetItemModel.delete(parseInt(String(req.params.itemId)));
       if (!success) {
         res.status(404).json({ error: 'Budget item not found' });
         return;
       }
       if (item) {
         await logAction({
-          projectId: parseInt(req.params.id),
+          projectId: parseInt(String(req.params.id)),
           entityType: 'budget_item',
-          entityId: parseInt(req.params.itemId),
+          entityId: parseInt(String(req.params.itemId)),
           action: 'deleted',
           performedBy: req.user?.userId,
           metadata: { name: item.name }
@@ -479,8 +479,8 @@ export const ProjectController = {
 
   async getBudgetSummary(req: Request, res: Response, next: NextFunction) {
     try {
-      const summary = await BudgetItemModel.getBudgetSummary(parseInt(req.params.id));
-      const totals = await BudgetItemModel.getProjectTotals(parseInt(req.params.id));
+      const summary = await BudgetItemModel.getBudgetSummary(parseInt(String(req.params.id)));
+      const totals = await BudgetItemModel.getProjectTotals(parseInt(String(req.params.id)));
       res.json({ categories: summary, totals });
     } catch (error) {
       next(error);
@@ -490,7 +490,7 @@ export const ProjectController = {
   // Stakeholders
   async getStakeholders(req: Request, res: Response, next: NextFunction) {
     try {
-      const stakeholders = await StakeholderModel.findByProject(parseInt(req.params.id));
+      const stakeholders = await StakeholderModel.findByProject(parseInt(String(req.params.id)));
       res.json(stakeholders);
     } catch (error) {
       next(error);
@@ -500,9 +500,9 @@ export const ProjectController = {
   async createStakeholder(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const data = createStakeholderSchema.parse(req.body);
-      const stakeholder = await StakeholderModel.create(parseInt(req.params.id), data);
+      const stakeholder = await StakeholderModel.create(parseInt(String(req.params.id)), data);
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'stakeholder',
         entityId: stakeholder.id,
         action: 'created',
@@ -522,13 +522,13 @@ export const ProjectController = {
   async updateStakeholder(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const data = createStakeholderSchema.partial().parse(req.body);
-      const stakeholder = await StakeholderModel.update(parseInt(req.params.stakeholderId), data);
+      const stakeholder = await StakeholderModel.update(parseInt(String(req.params.stakeholderId)), data);
       if (!stakeholder) {
         res.status(404).json({ error: 'Stakeholder not found' });
         return;
       }
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'stakeholder',
         entityId: stakeholder.id,
         action: 'updated',
@@ -546,15 +546,15 @@ export const ProjectController = {
 
   async deleteStakeholder(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const success = await StakeholderModel.delete(parseInt(req.params.stakeholderId));
+      const success = await StakeholderModel.delete(parseInt(String(req.params.stakeholderId)));
       if (!success) {
         res.status(404).json({ error: 'Stakeholder not found' });
         return;
       }
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'stakeholder',
-        entityId: parseInt(req.params.stakeholderId),
+        entityId: parseInt(String(req.params.stakeholderId)),
         action: 'deleted',
         performedBy: req.user?.userId
       });
@@ -568,7 +568,7 @@ export const ProjectController = {
   async getFiles(req: Request, res: Response, next: NextFunction) {
     try {
       const category = req.query.category as string | undefined;
-      const files = await ProjectFileModel.findByProject(parseInt(req.params.id), category);
+      const files = await ProjectFileModel.findByProject(parseInt(String(req.params.id)), category);
       res.json(files);
     } catch (error) {
       next(error);
@@ -578,12 +578,12 @@ export const ProjectController = {
   async createFile(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const data = createFileSchema.parse(req.body);
-      const file = await ProjectFileModel.create(parseInt(req.params.id), {
+      const file = await ProjectFileModel.create(parseInt(String(req.params.id)), {
         ...data,
         uploaded_by: req.user?.userId
       });
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'file',
         entityId: file.id,
         action: 'created',
@@ -603,13 +603,13 @@ export const ProjectController = {
   async updateFileCategory(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const { category } = req.body;
-      const file = await ProjectFileModel.updateCategory(parseInt(req.params.fileId), category);
+      const file = await ProjectFileModel.updateCategory(parseInt(String(req.params.fileId)), category);
       if (!file) {
         res.status(404).json({ error: 'File not found' });
         return;
       }
       await logAction({
-        projectId: parseInt(req.params.id),
+        projectId: parseInt(String(req.params.id)),
         entityType: 'file',
         entityId: file.id,
         action: 'updated',
@@ -624,17 +624,17 @@ export const ProjectController = {
 
   async deleteFile(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const file = await ProjectFileModel.findById(parseInt(req.params.fileId));
-      const success = await ProjectFileModel.delete(parseInt(req.params.fileId));
+      const file = await ProjectFileModel.findById(parseInt(String(req.params.fileId)));
+      const success = await ProjectFileModel.delete(parseInt(String(req.params.fileId)));
       if (!success) {
         res.status(404).json({ error: 'File not found' });
         return;
       }
       if (file) {
         await logAction({
-          projectId: parseInt(req.params.id),
+          projectId: parseInt(String(req.params.id)),
           entityType: 'file',
-          entityId: parseInt(req.params.fileId),
+          entityId: parseInt(String(req.params.fileId)),
           action: 'deleted',
           performedBy: req.user?.userId,
           metadata: { file_name: file.file_name }
@@ -651,8 +651,8 @@ export const ProjectController = {
     try {
       const limit = parseInt(req.query.limit as string) || 50;
       const offset = parseInt(req.query.offset as string) || 0;
-      const logs = await ActivityLogModel.findByProject(parseInt(req.params.id), limit, offset);
-      const total = await ActivityLogModel.countByProject(parseInt(req.params.id));
+      const logs = await ActivityLogModel.findByProject(parseInt(String(req.params.id)), limit, offset);
+      const total = await ActivityLogModel.countByProject(parseInt(String(req.params.id)));
       res.json({ logs, total, limit, offset });
     } catch (error) {
       next(error);
@@ -662,7 +662,7 @@ export const ProjectController = {
   // Time Calendar - aggregated view of hours per member per day
   async getTimeCalendar(req: Request, res: Response, next: NextFunction) {
     try {
-      const projectId = parseInt(req.params.id);
+      const projectId = parseInt(String(req.params.id));
       const weekStart = req.query.weekStart as string || new Date().toISOString().split('T')[0];
 
       // Get all time entries for this project

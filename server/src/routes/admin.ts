@@ -40,7 +40,7 @@ adminRouter.get('/registration-requests', async (req: Request, res: Response) =>
 // Approve a registration request
 adminRouter.post('/registration-requests/:id/approve', async (req: Request, res: Response) => {
   try {
-    const requestId = parseInt(req.params.id);
+    const requestId = parseInt(String(req.params.id));
     const adminId = (req as any).user.userId;
 
     if (isNaN(requestId)) {
@@ -85,7 +85,7 @@ adminRouter.post('/registration-requests/:id/approve', async (req: Request, res:
 // Reject a registration request
 adminRouter.post('/registration-requests/:id/reject', async (req: Request, res: Response) => {
   try {
-    const requestId = parseInt(req.params.id);
+    const requestId = parseInt(String(req.params.id));
     const adminId = (req as any).user.userId;
     const { reason } = req.body;
 
@@ -121,7 +121,7 @@ adminRouter.post('/registration-requests/:id/reject', async (req: Request, res: 
 // Delete a registration request
 adminRouter.delete('/registration-requests/:id', async (req: Request, res: Response) => {
   try {
-    const requestId = parseInt(req.params.id);
+    const requestId = parseInt(String(req.params.id));
 
     if (isNaN(requestId)) {
       return res.status(400).json({ error: 'Invalid request ID' });

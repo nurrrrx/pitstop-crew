@@ -36,7 +36,7 @@ export interface ADOBudgetSummary {
 // Get ADO budget for a specific year
 budgetRouter.get('/ado/:year', async (req: Request, res: Response) => {
   try {
-    const year = parseInt(req.params.year);
+    const year = parseInt(String(req.params.year));
 
     const result = await query(
       `SELECT * FROM ado_budget WHERE year = $1 ORDER BY sort_order, id`,
@@ -78,7 +78,7 @@ budgetRouter.get('/ado/:year', async (req: Request, res: Response) => {
 // Update ADO budget item
 budgetRouter.put('/ado/:id', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(String(req.params.id));
     const { item_name, budget_aed, capex, opex, category, sort_order } = req.body;
 
     const result = await query(
@@ -129,7 +129,7 @@ budgetRouter.post('/ado', async (req: Request, res: Response) => {
 // Delete ADO budget item
 budgetRouter.delete('/ado/:id', async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(String(req.params.id));
 
     await query('DELETE FROM ado_budget WHERE id = $1', [id]);
 

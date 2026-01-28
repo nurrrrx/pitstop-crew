@@ -63,7 +63,7 @@ export const TimeController = {
 
   async delete(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const success = await TimeEntryModel.delete(parseInt(req.params.id));
+      const success = await TimeEntryModel.delete(parseInt(String(req.params.id)));
       if (!success) {
         res.status(404).json({ error: 'Time entry not found' });
         return;

@@ -21,7 +21,7 @@ export const UserController = {
         SELECT id, email, name, role, avatar_url, hourly_rate, created_at
         FROM users
         WHERE id = $1
-      `, [req.params.id]);
+      `, [String(req.params.id)]);
 
       if (result.rows.length === 0) {
         res.status(404).json({ error: 'User not found' });

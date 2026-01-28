@@ -57,7 +57,7 @@ userRouter.put('/profile', async (req: Request, res: Response) => {
 // Get user activity heatmap data (past year)
 userRouter.get('/:id/activity-heatmap', async (req: Request, res: Response) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(String(req.params.id));
     if (isNaN(userId)) {
       return res.status(400).json({ error: 'Invalid user ID' });
     }

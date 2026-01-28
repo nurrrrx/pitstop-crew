@@ -184,7 +184,7 @@ export class AdHocRequestModel {
     // Handle status changes
     if (data.status === 'completed') {
       fields.push(`completed_at = CURRENT_TIMESTAMP`);
-    } else if (data.status && data.status !== 'completed') {
+    } else if (data.status) {
       fields.push(`completed_at = NULL`);
     }
 

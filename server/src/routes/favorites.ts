@@ -23,7 +23,7 @@ favoritesRouter.get('/', async (req: Request, res: Response) => {
 favoritesRouter.post('/:projectId', async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.userId;
-    const projectId = parseInt(req.params.projectId);
+    const projectId = parseInt(String(req.params.projectId));
 
     if (isNaN(projectId)) {
       return res.status(400).json({ error: 'Invalid project ID' });
@@ -41,7 +41,7 @@ favoritesRouter.post('/:projectId', async (req: Request, res: Response) => {
 favoritesRouter.delete('/:projectId', async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.userId;
-    const projectId = parseInt(req.params.projectId);
+    const projectId = parseInt(String(req.params.projectId));
 
     if (isNaN(projectId)) {
       return res.status(400).json({ error: 'Invalid project ID' });

@@ -143,7 +143,7 @@ export const AuthController = {
 
   async validateResetToken(req: Request, res: Response, next: NextFunction) {
     try {
-      const { token } = req.params;
+      const token = String(req.params.token);
       const isValid = await AuthService.validateResetToken(token);
       res.json({ valid: isValid });
     } catch (error) {

@@ -21,7 +21,7 @@ export const getAllRequests = async (req: Request, res: Response, next: NextFunc
 // Get request by ID
 export const getRequest = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const request = await AdHocRequestModel.getById(parseInt(id));
 
     if (!request) {
@@ -53,7 +53,7 @@ export const createRequest = async (req: Request, res: Response, next: NextFunct
 // Update a request
 export const updateRequest = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const request = await AdHocRequestModel.update(parseInt(id), req.body);
 
     if (!request) {
@@ -69,7 +69,7 @@ export const updateRequest = async (req: Request, res: Response, next: NextFunct
 // Delete a request
 export const deleteRequest = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const success = await AdHocRequestModel.delete(parseInt(id));
 
     if (!success) {
@@ -85,7 +85,7 @@ export const deleteRequest = async (req: Request, res: Response, next: NextFunct
 // Get comments for a request
 export const getRequestComments = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const comments = await AdHocRequestModel.getComments(parseInt(id));
     res.json(comments);
   } catch (error) {
@@ -96,7 +96,7 @@ export const getRequestComments = async (req: Request, res: Response, next: Next
 // Add a comment to a request
 export const addRequestComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id);
     const { comment } = req.body;
     const userId = (req as Request & { user?: { userId: number } }).user?.userId;
 
