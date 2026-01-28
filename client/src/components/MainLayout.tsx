@@ -66,7 +66,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="h-screen max-h-screen overflow-hidden">
+      <SidebarInset className="flex h-screen max-h-screen flex-col overflow-hidden">
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
@@ -97,7 +97,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             <ADOLogo className="h-8 w-auto text-foreground" />
           </div>
         </header>
-        <div className="flex-1 overflow-auto p-4">
+        <div className="flex-1 overflow-auto bg-background p-4">
           <div className="flex flex-col gap-4">
             {children}
           </div>

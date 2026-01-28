@@ -76,6 +76,7 @@
   }
   html {
     zoom: 0.9;
+    height: 100%;
   }
   body {
     @apply bg-background text-foreground;
@@ -88,6 +89,9 @@
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
     min-width: 320px;
-    min-height: 100vh;
+    height: 100%;
+  }
+  #root {
+    height: 100%;
   }
 }
