@@ -75,8 +75,13 @@
     @apply border-border;
   }
   html {
-    zoom: 0.9;
-    height: 100%;
+    /* Use transform instead of zoom for cross-browser compatibility */
+    height: 111.11%; /* 100% / 0.9 to fill viewport after scale */
+    min-height: 111.11vh;
+    width: 111.11%;
+    transform: scale(0.9);
+    transform-origin: top left;
+    overflow: hidden;
   }
   body {
     @apply bg-background text-foreground;
